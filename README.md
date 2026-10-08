@@ -85,10 +85,10 @@ vehicle-rental-system/
 ├── docs/
 │   └── images/
 │       ├── app-menu.png
-│       ├── rental-output.png
-│       ├── rental-records.png
-│       ├── tests-passing.png
-│       └── debugger-view.png
+│       ├── rental-records-and-error-handling.png
+│       ├── renting-process.png
+│       ├── passing-tests.png
+│       └── debugger_view.png
 │
 ├── src/
 │   └── vehicle_rental_system/
