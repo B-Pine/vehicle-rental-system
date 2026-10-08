@@ -94,6 +94,15 @@ def print_rental_record(
         f"{record['brand']} "
         f"{record['model']}"
     )
+    print(
+    f"Customer     : "
+    f"{record['customer_name']}"
+    )
+
+    print(
+        f"Phone        : "
+        f"{record['customer_phone']}"
+    )
 
     print(
         f"Rental Days  : "
@@ -111,4 +120,42 @@ def print_rental_record(
     )
 
     print("=" * 40)
-    
+
+
+def normalize_phone_number(phone: str) -> str:
+    """Validate and normalize a customer phone number."""
+
+    phone = phone.strip()
+    normalized = phone.replace(" ", "").replace("-", "")
+
+    if normalized.startswith("+"):
+        digits = normalized[1:]
+    else:
+        digits = normalized
+
+    if not digits.isdigit():
+        raise ValueError(
+            "Phone number must contain only digits."
+        )
+
+    if not 10 <= len(digits) <= 15:
+        raise ValueError(
+            "Phone number must contain between 10 and 15 digits."
+        )
+
+    return normalized
+
+
+def read_phone(prompt: str) -> str:
+    """Read and validate a customer phone number."""
+
+    while True:
+        phone = input(prompt)
+
+        try:
+            return normalize_phone_number(phone)
+
+        except ValueError as error:
+            print(error)
+            
+              

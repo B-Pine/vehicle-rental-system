@@ -9,6 +9,7 @@ from .utils import (
     format_currency,
     print_rental_record,
     read_non_empty,
+    read_phone,
     read_positive_int,
 )
 
@@ -157,15 +158,25 @@ def handle_rental(
         )
         return
 
+    customer_name = read_non_empty(
+    "Customer name: "
+    )
+
+    customer_phone = read_phone(
+        "Customer phone: "
+    )
+
     days = read_positive_int(
         "Number of rental days: "
     )
 
     try:
         record = rent_vehicle(
-            vehicle,
-            days,
-        )
+        vehicle,
+        days,
+        customer_name,
+        customer_phone,
+    )
 
         rental_records[
             vehicle.vehicle_id
@@ -242,11 +253,12 @@ def display_rental_records(
 
     print(
         f"{'ID':<10}"
-        f"{'Type':<12}"
-        f"{'Vehicle':<25}"
+        f"{'Customer':<20}"
+        f"{'Phone':<18}"
+        f"{'Vehicle':<22}"
         f"{'Days':>8}"
         f"{'Cost':>18}"
-        f"{'Status':>15}"
+        f"{'Status':>12}"
     )
 
     print("-" * 90)
@@ -259,11 +271,12 @@ def display_rental_records(
 
         print(
             f"{str(record['vehicle_id']):<10}"
-            f"{str(record['vehicle_type']):<12}"
-            f"{vehicle_name:<25}"
+            f"{str(record['customer_name']):<20}"
+            f"{str(record['customer_phone']):<18}"
+            f"{vehicle_name:<22}"
             f"{str(record['days']):>8}"
             f"{format_currency(float(record['total_cost'])):>18}"
-            f"{str(record['status']):>15}"
+            f"{str(record['status']):>12}"
         )
 
 
@@ -342,4 +355,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-    

@@ -24,10 +24,11 @@ def test_rent_vehicle_changes_availability() -> None:
     rent_vehicle(
         car,
         3,
+        "Alice",
+        "+250788123456",
     )
 
     assert car.available is False
-
 
 def test_rental_record_contains_cost() -> None:
     car = Car(
@@ -41,6 +42,8 @@ def test_rental_record_contains_cost() -> None:
     record = rent_vehicle(
         car,
         3,
+        "Alice",
+        "+250788123456",
     )
 
     assert (
@@ -61,12 +64,16 @@ def test_cannot_rent_same_vehicle_twice() -> None:
     rent_vehicle(
         car,
         2,
+        "Alice",
+        "+250788123456",
     )
 
     with pytest.raises(ValueError):
         rent_vehicle(
             car,
             2,
+            "Alice",
+            "+250788123456",
         )
 
 
@@ -82,6 +89,9 @@ def test_return_vehicle() -> None:
     rent_vehicle(
         car,
         2,
+        "Alice",
+        "+250788123456",
+        
     )
 
     return_vehicle(car)
@@ -122,6 +132,9 @@ def test_get_available_vehicles() -> None:
     rent_vehicle(
         car,
         2,
+        "Alice",
+        "+250788123456",
+
     )
 
     available = get_available_vehicles(
@@ -130,3 +143,41 @@ def test_get_available_vehicles() -> None:
 
     assert bike in available
     assert car not in available
+
+def test_rental_record_contains_customer() -> None:
+    car = Car(
+        "CAR001",
+        "Toyota",
+        "Corolla",
+        40_000,
+        seats=5,
+    )
+
+    record = rent_vehicle(
+        car,
+        3,
+        "Alice",
+        "+250788123456",
+    )
+
+    assert record["customer_name"] == "Alice"
+    assert record["customer_phone"] == "+250788123456"
+
+
+def test_invalid_customer_phone_is_rejected() -> None:
+    car = Car(
+        "CAR001",
+        "Toyota",
+        "Corolla",
+        40_000,
+        seats=5,
+    )
+
+    with pytest.raises(ValueError):
+        rent_vehicle(
+            car,
+            3,
+            "Alice",
+            "not-a-phone",
+        )
+
